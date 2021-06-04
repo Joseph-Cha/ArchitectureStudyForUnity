@@ -1,11 +1,15 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using UnityEngine;
+enum PropertyName
+{
+    IsNormalType,
+    IsAutoIntensity,
+    LightIntensity,
+    HasShadow,
+}
 
-public class SettingsViewModel : INotifyPropertyChanged
+public class ViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
     private bool isNormalType = true;
@@ -60,9 +64,9 @@ public class SettingsViewModel : INotifyPropertyChanged
             }
         }
     }
-    private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")  
+    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")  
     {  
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }  
+    }
 }
  
