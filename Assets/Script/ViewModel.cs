@@ -1,6 +1,10 @@
 using System;
 using System.ComponentModel;
+using System.IO;
 using System.Runtime.CompilerServices;
+using System.Runtime.Serialization.Formatters.Binary;
+using UnityEngine;
+
 enum PropertyName
 {
     IsNormalType,
@@ -25,7 +29,7 @@ public class ViewModel : INotifyPropertyChanged
             }
         }   
     }
-    private bool isAutoIntensity;
+    private bool isAutoIntensity = false;
     public bool IsAutoIntensity
     {
         get => this.isAutoIntensity;
@@ -64,9 +68,51 @@ public class ViewModel : INotifyPropertyChanged
             }
         }
     }
+    
     private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")  
     {  
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
+    public void SaveData()
+    {   
+        string filePath = Application.persistentDataPath + "/data.dat";
+
+        using(FileStream stream = new FileStream(filePath, FileMode.Create))
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            Model model = new Model(this.IsNormalType, this.IsAutoIntensity, this.LightIntensity, this.HasShadow);
+            formatter.Serialize(stream, model);
+        };
+    }
+
+
+    public void LoadData()
+    {
+        Model model = null;
+        string filePath = Application.persistentDataPath + "/data.dat";
+
+        if(File.Exists(filePath))
+        {
+            using(FileStream stream = new FileStream(filePath, FileMode.Open))
+            {
+                BinaryFormatter formatter = new BinaryFormatter();
+                model = formatter.Deserialize(stream) as Model;
+                formatter = null;
+            };
+        }
+        else
+            model = new Model(true, false, 0, false);
+            
+        InitFields(model);
+    }
+
+    private void InitFields(Model model)
+    {
+        this.IsNormalType = model.IsNormalType;
+        this.IsAutoIntensity = model.IsAutoIntensity;
+        this.LightIntensity = model.LightIntensity;
+        this.HasShadow = model.HasShadow;
     }
 }
  

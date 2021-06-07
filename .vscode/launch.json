@@ -7,7 +7,7 @@
         {
             "name": "Unity Editor",
             "type": "unity",
-            "path": "/D:/UnityProject/1_TestProj/MVVM Practice/Library/EditorInstance.json",
+            "path": "/D:/Personal/MVVM_For_Unity/Library/EditorInstance.json",
             "request": "launch"
         },
         {

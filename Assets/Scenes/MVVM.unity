@@ -846,7 +846,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   toggle: {fileID: 62640048}
-  slider: {fileID: 860511134}
 --- !u!114 &1786208670
 MonoBehaviour:
   m_ObjectHideFlags: 0
