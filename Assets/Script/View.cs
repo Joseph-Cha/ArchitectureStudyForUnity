@@ -10,6 +10,7 @@ using System.Reflection;
 public class View : MonoBehaviour
 {
     public Toggle toggle;
+    public Slider slider;
 
     // dataContext는 실질적으로 INotifyPropertyChanged의 데이터만 가지고 있음
     private INotifyPropertyChanged dataContext = new ViewModel();
@@ -40,7 +41,7 @@ public class View : MonoBehaviour
 
     private void LightToggleValueChanged(bool isOn)
     {
-        PropertyInfo info = propertyInfos[nameof(ViewModel.IsNormalType)];
+        PropertyInfo info = propertyInfos[nameof(ViewModel.HasToggleValue)];
         info.SetValue(dataContext, isOn);
     }
 
@@ -70,11 +71,30 @@ public class View : MonoBehaviour
     // PropertyChanged에 바인딩을 하기 위한 메서드
     private void PropertyChanged(object value, PropertyChangedEventArgs e)
     {
-        if (e.PropertyName == PropertyName.IsNormalType.ToString())
+        string propertyName = e.PropertyName;
+        ChangeComponentValue(value, propertyName);
+    }
+
+    private void ChangeComponentValue(object value, string propertyName)
+    {
+        PropertyName name = (PropertyName)Enum.Parse(typeof(PropertyName), propertyName);
+
+        switch(name)
         {
-            bool isNormalType = (bool)propertyInfos[e.PropertyName].GetValue(value);
-            if (toggle.isOn != isNormalType)
-                toggle.isOn = isNormalType;
+            case PropertyName.IsNormalType:
+                bool isNormalType = (bool)propertyInfos[propertyName].GetValue(value);
+                if (toggle.isOn != isNormalType)
+                    toggle.isOn = isNormalType;
+                break;
+
+            case PropertyName.IsAutoIntensity:
+                break;
+
+            case PropertyName.LightIntensity:
+                break;
+
+            case PropertyName.HasShadow:
+                break;
         }
     }
 

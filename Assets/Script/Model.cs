@@ -1,15 +1,11 @@
 [System.Serializable]
 public class Model
 {
-    public Model(bool isNormalType, bool isAutoIntensity, float lightIntensity, bool hasShadow)
+    public Model(bool hasToggleValue, float sliderIntensity)
     {
-        this.IsNormalType = isNormalType;
-        this.IsAutoIntensity = isAutoIntensity;
-        this.LightIntensity = lightIntensity;
-        this.HasShadow = hasShadow;
+        this.HasToggleValue = hasToggleValue;
+        this.SliderIntensity = sliderIntensity;
     }
-    public bool IsNormalType;
-    public bool IsAutoIntensity;
-    public float LightIntensity;
-    public bool HasShadow;
+    public bool HasToggleValue;
+    public float SliderIntensity;
 }

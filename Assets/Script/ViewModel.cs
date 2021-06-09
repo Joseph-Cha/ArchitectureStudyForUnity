@@ -16,15 +16,15 @@ enum PropertyName
 public class ViewModel : INotifyPropertyChanged
 {
     public event PropertyChangedEventHandler PropertyChanged;
-    private bool isNormalType = true;
-    public bool IsNormalType
+    private bool hasToggleValue = true;
+    public bool HasToggleValue
     {
-        get => this.isNormalType;
+        get => this.hasToggleValue;
         set
         {
-            if (value != this.isNormalType)
+            if (value != this.hasToggleValue)
             {
-                this.isNormalType = value;
+                this.hasToggleValue = value;
                 NotifyPropertyChanged();
             }
         }   
@@ -42,15 +42,15 @@ public class ViewModel : INotifyPropertyChanged
             }
         }
     }
-    private float lightIntensity;
-    public float LightIntensity
+    private float sliderIntensity;
+    public float SliderIntensity
     {
-        get => this.lightIntensity;
+        get => this.sliderIntensity;
         set
         {
-            if (value != lightIntensity)
+            if (value != sliderIntensity)
             {
-                this.lightIntensity = value;
+                this.sliderIntensity = value;
                 NotifyPropertyChanged();
             }
         }
@@ -81,7 +81,7 @@ public class ViewModel : INotifyPropertyChanged
         using(FileStream stream = new FileStream(filePath, FileMode.Create))
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            Model model = new Model(this.IsNormalType, this.IsAutoIntensity, this.LightIntensity, this.HasShadow);
+            Model model = new Model(this.HasToggleValue, this.SliderIntensity);
             formatter.Serialize(stream, model);
         };
     }
@@ -102,17 +102,15 @@ public class ViewModel : INotifyPropertyChanged
             };
         }
         else
-            model = new Model(true, false, 0, false);
+            model = new Model(true, 0);
             
         InitFields(model);
     }
 
     private void InitFields(Model model)
     {
-        this.IsNormalType = model.IsNormalType;
-        this.IsAutoIntensity = model.IsAutoIntensity;
-        this.LightIntensity = model.LightIntensity;
-        this.HasShadow = model.HasShadow;
+        this.HasToggleValue = model.HasToggleValue;
+        this.SliderIntensity = model.SliderIntensity;
     }
 }
  
