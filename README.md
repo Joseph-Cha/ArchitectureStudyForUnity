@@ -42,8 +42,8 @@ MVP 패턴 자체에 대한 설명은 여기 [블로그](https://velog.io/@sonoh
 
 1. 씬 구성
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/161282d4-22bd-44dd-93d2-babacf0c6acf/Untitled.png)
-    
+![image](https://user-images.githubusercontent.com/75019048/154803805-131a6718-2a2a-4d3e-88ca-921848f19184.png)
+
 2. 소스
     
     `HairColorPresenter.cs`
@@ -96,12 +96,11 @@ MVP 패턴 자체에 대한 설명은 여기 [블로그](https://velog.io/@sonoh
 
 1. Slider의 변경된 값이 바로 Sciptable Object에 저장되는 것을 볼 수 있다.
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/759f6482-aa90-4ee4-8357-9e2fd9ffb852/Untitled.png)
-    
+![image](https://user-images.githubusercontent.com/75019048/154803813-f53f4da6-531a-4a1f-b9aa-ddb55386f40b.png)
+
 2. (중요)**Play를 종료해도 `Sciptable Object` 값이 그대로 있는 것을 알 수 있다.**
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/11addab7-4180-4aff-80b2-24e1ae2f1415/Untitled.png)
-    
+![image](https://user-images.githubusercontent.com/75019048/154803817-2a8afd0e-7311-47f6-b7ae-bbd110c6d806.png)    
 
 ## 이제 어떻게 하면 Model 값이 변경 되었을 때 변경된 값을 GameObject에 알려줄 수 있을까?
 
@@ -124,12 +123,12 @@ Addressable에 대해서는 여기 [링크](https://young-94.tistory.com/47)를 
 
 1. 씬 셋팅
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/451c93a4-6acd-4dbd-9262-f1c420d0bd3f/Untitled.png)
-    
+![image](https://user-images.githubusercontent.com/75019048/154803820-5e54b0ff-dded-42d7-99cd-f49b7b929690.png)
+
 2. Addressables 설정
     
-    ![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/b5df7045-8a5e-4801-8e24-f23f28122e6d/Untitled.png)
-    
+![image](https://user-images.githubusercontent.com/75019048/154803822-57235049-7165-4d40-9e73-2da84d583415.png)
+
 3. Model 데이터 불러오기
     
     ```csharp
@@ -285,7 +284,7 @@ Addressable에 대해서는 여기 [링크](https://young-94.tistory.com/47)를 
 
 ## 실제 작동 확인
 
-![Untitled](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a4b0d1e0-d325-4e6b-9016-2d3361aa51b8/Untitled.png)
+![image](https://user-images.githubusercontent.com/75019048/154803829-c25aa156-45a9-495d-9549-afae38cb4f38.png)
 
 ## 결론
 
