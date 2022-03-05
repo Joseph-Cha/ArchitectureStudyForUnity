@@ -46,50 +46,50 @@ MVP 패턴 자체에 대한 설명은 여기 [블로그](https://velog.io/@sonoh
 
 2. 소스
     
-    `HairColorPresenter.cs`
-    
-    ```csharp
-    using UnityEngine;
-    using UnityEngine.UI;
-    
-    public class HairColorPresenter : MonoBehaviour
+`HairColorPresenter.cs`
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+public class HairColorPresenter : MonoBehaviour
+{
+    // View
+    [SerializeField]
+    private Slider RedColor_Slider;
+    [SerializeField]
+    private Slider GreenColor_Slider;
+    [SerializeField]
+    private Slider BlueColor_Slider;
+
+    // Model
+    [SerializeField]
+    private HairColorModel HairColorModel;
+
+    private void Awake()
     {
-        // View
-        [SerializeField]
-        private Slider RedColor_Slider;
-        [SerializeField]
-        private Slider GreenColor_Slider;
-        [SerializeField]
-        private Slider BlueColor_Slider;
-    
-        // Model
-        [SerializeField]
-        private HairColorModel HairColorModel;
-    
-        private void Awake()
-        {
-            RedColor_Slider.onValueChanged.AddListener(v => HairColorModel.RedValue = v);
-            GreenColor_Slider.onValueChanged.AddListener(v => HairColorModel.GreenValue = v);
-            BlueColor_Slider.onValueChanged.AddListener(v => HairColorModel.BlueValue = v);
-        }
+        RedColor_Slider.onValueChanged.AddListener(v => HairColorModel.RedValue = v);
+        GreenColor_Slider.onValueChanged.AddListener(v => HairColorModel.GreenValue = v);
+        BlueColor_Slider.onValueChanged.AddListener(v => HairColorModel.BlueValue = v);
     }
-    ```
-    
-    `HairColorModel.cs`
-    
-    ```csharp
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    
-    [CreateAssetMenu(fileName = "HairColorModel", menuName = "Hair")]
-    public class HairColorModel : ScriptableObject
-    {
-        public float RedValue;
-        public float GreenValue;
-        public float BlueValue;
-    }
-    ```
+}
+```
+
+`HairColorModel.cs`
+
+```csharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[CreateAssetMenu(fileName = "HairColorModel", menuName = "Hair")]
+public class HairColorModel : ScriptableObject
+{
+    public float RedValue;
+    public float GreenValue;
+    public float BlueValue;
+}
+```
     
 
 ### Slider를 변경 시켰을 때
@@ -130,156 +130,156 @@ Addressable에 대해서는 여기 [링크](https://young-94.tistory.com/47)를 
 ![image](https://user-images.githubusercontent.com/75019048/154803822-57235049-7165-4d40-9e73-2da84d583415.png)
 
 3. Model 데이터 불러오기
-    
-    ```csharp
-    using System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.UI;
-    using UnityEngine.AddressableAssets;
-    
-    public class Hair : MonoBehaviour
+
+```csharp
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+
+public class Hair : MonoBehaviour
+{
+    [SerializeField]
+    private Image Image;
+
+    private HairColorModel hairColor { get; set; }
+
+    private void Awake()
     {
-        [SerializeField]
-        private Image Image;
-    
-        private HairColorModel hairColor { get; set; }
-    
-        private void Awake()
+        Addressables.LoadAssetAsync<HairColorModel>("HairModel").Completed += ao =>
         {
-            Addressables.LoadAssetAsync<HairColorModel>("HairModel").Completed += ao =>
+            if (ao.IsDone)
             {
-                if (ao.IsDone)
-                {
-                    hairColor = ao.Result;
-                }
-            };
-        }
+                hairColor = ao.Result;
+            }
+        };
     }
-    ```
+}
+```
     
 
 ## 이벤트 구독 방식 구현
 
 1. HairColorModel에서 이벤트 생성
     
-    ```csharp
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.Events;
-    
-    [CreateAssetMenu(fileName = "HairColorModel", menuName = "Hair")]
-    public class HairColorModel : ScriptableObject
-    {
-        public float RedValue;
-        public float GreenValue;
-        public float BlueValue;
-    		
-    	// 각 Color 값이 변경 되었을 때 실행될 이벤트 추가
-        public UnityAction<float> OnRedValueChanged;
-        public UnityAction<float> OnGreenValueChanged;
-        public UnityAction<float> OnBlueValueChanged;
-    }
-    ```
+```csharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+[CreateAssetMenu(fileName = "HairColorModel", menuName = "Hair")]
+public class HairColorModel : ScriptableObject
+{
+    public float RedValue;
+    public float GreenValue;
+    public float BlueValue;
+
+    // 각 Color 값이 변경 되었을 때 실행될 이벤트 추가
+    public UnityAction<float> OnRedValueChanged;
+    public UnityAction<float> OnGreenValueChanged;
+    public UnityAction<float> OnBlueValueChanged;
+}
+```
     
 2. Presenter에서 Slider와 Model의 이벤트를 연결
-    
-    ```csharp
-    using UnityEngine;
-    using UnityEngine.UI;
-    
-    public class HairColorPresenter : MonoBehaviour
+
+```csharp
+using UnityEngine;
+using UnityEngine.UI;
+
+public class HairColorPresenter : MonoBehaviour
+{
+    // View
+    [SerializeField]
+    private Slider RedColor_Slider;
+    [SerializeField]
+    private Slider GreenColor_Slider;
+    [SerializeField]
+    private Slider BlueColor_Slider;
+
+    // Model
+    [SerializeField]
+    private HairColorModel HairColorModel;
+
+    private void Awake()
     {
-        // View
-        [SerializeField]
-        private Slider RedColor_Slider;
-        [SerializeField]
-        private Slider GreenColor_Slider;
-        [SerializeField]
-        private Slider BlueColor_Slider;
-    
-        // Model
-        [SerializeField]
-        private HairColorModel HairColorModel;
-    
-        private void Awake()
+        // UI가 변경 되었을 때 
+        // Model에 값을 저장하고 해당 이벤트를 실행
+        RedColor_Slider.onValueChanged.AddListener(v =>
         {
-            // UI가 변경 되었을 때 
-            // Model에 값을 저장하고 해당 이벤트를 실행
-            RedColor_Slider.onValueChanged.AddListener(v =>
-            {
-                HairColorModel.RedValue = v;
-                HairColorModel.OnRedValueChanged?.Invoke(v);
-            });
-    
-            GreenColor_Slider.onValueChanged.AddListener(v =>
-            {
-                HairColorModel.GreenValue = v;
-                HairColorModel.OnGreenValueChanged?.Invoke(v);
-            });
-    
-            BlueColor_Slider.onValueChanged.AddListener(v =>
-            {
-                HairColorModel.BlueValue = v;
-                HairColorModel.OnBlueValueChanged?.Invoke(v);
-            });
-        }
+            HairColorModel.RedValue = v;
+            HairColorModel.OnRedValueChanged?.Invoke(v);
+        });
+
+        GreenColor_Slider.onValueChanged.AddListener(v =>
+        {
+            HairColorModel.GreenValue = v;
+            HairColorModel.OnGreenValueChanged?.Invoke(v);
+        });
+
+        BlueColor_Slider.onValueChanged.AddListener(v =>
+        {
+            HairColorModel.BlueValue = v;
+            HairColorModel.OnBlueValueChanged?.Invoke(v);
+        });
     }
-    ```
+}
+```
     
 3. Hair에서 Model의 이벤트를 구독
-    
-    ```csharp
-    using System.Collections;
-    using System.Collections.Generic;
-    using UnityEngine;
-    using UnityEngine.UI;
-    using UnityEngine.AddressableAssets;
-    
-    public class Hair : MonoBehaviour
+
+```csharp
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.AddressableAssets;
+
+public class Hair : MonoBehaviour
+{
+    [SerializeField]
+    private Image Image;
+
+    private HairColorModel hairColor { get; set; }
+
+    private Color color = new Color(r: 0, g: 0, b: 0, a: 1);
+
+    private void Awake()
     {
-        [SerializeField]
-        private Image Image;
-    
-        private HairColorModel hairColor { get; set; }
-    
-        private Color color = new Color(r: 0, g: 0, b: 0, a: 1);
-    
-        private void Awake()
+        Addressables.LoadAssetAsync<HairColorModel>("HairModel").Completed += ao =>
         {
-            Addressables.LoadAssetAsync<HairColorModel>("HairModel").Completed += ao =>
+            if (ao.IsDone)
             {
-                if (ao.IsDone)
-                {
-                    hairColor = ao.Result;
-    								
-                    // 모델이 들고 있는 이벤트 구독
-                    hairColor.OnRedValueChanged += ChangeRedColor;
-                    hairColor.OnGreenValueChanged += ChangeGreenColor;
-                    hairColor.OnBlueValueChanged += ChangeBlueColor;
-                }
-            };
-        }
-    
-        private void ChangeRedColor(float value)
-        {
-            color.r = value;
-            Image.color = color;
-        }
-    
-        private void ChangeGreenColor(float value)
-        {
-            color.g = value;
-            Image.color = color;
-        }
-    
-        private void ChangeBlueColor(float value)
-        {
-            color.b = value;
-            Image.color = color;
-        }
+                hairColor = ao.Result;
+
+                // 모델이 들고 있는 이벤트 구독
+                hairColor.OnRedValueChanged += ChangeRedColor;
+                hairColor.OnGreenValueChanged += ChangeGreenColor;
+                hairColor.OnBlueValueChanged += ChangeBlueColor;
+            }
+        };
     }
-    ```
+
+    private void ChangeRedColor(float value)
+    {
+        color.r = value;
+        Image.color = color;
+    }
+
+    private void ChangeGreenColor(float value)
+    {
+        color.g = value;
+        Image.color = color;
+    }
+
+    private void ChangeBlueColor(float value)
+    {
+        color.b = value;
+        Image.color = color;
+    }
+}
+```
     
 
 ## 실제 작동 확인
