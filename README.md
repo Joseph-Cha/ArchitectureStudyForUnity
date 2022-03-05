@@ -175,7 +175,7 @@ Addressable에 대해서는 여기 [링크](https://young-94.tistory.com/47)를 
         public float GreenValue;
         public float BlueValue;
     		
-    		// 각 Color 값이 변경 되었을 때 실행될 이벤트 추가
+    	// 각 Color 값이 변경 되었을 때 실행될 이벤트 추가
         public UnityAction<float> OnRedValueChanged;
         public UnityAction<float> OnGreenValueChanged;
         public UnityAction<float> OnBlueValueChanged;
@@ -204,8 +204,8 @@ Addressable에 대해서는 여기 [링크](https://young-94.tistory.com/47)를 
     
         private void Awake()
         {
-    				// UI가 변경 되었을 때 
-    				// Model에 값을 저장하고 해당 이벤트를 실행
+            // UI가 변경 되었을 때 
+            // Model에 값을 저장하고 해당 이벤트를 실행
             RedColor_Slider.onValueChanged.AddListener(v =>
             {
                 HairColorModel.RedValue = v;
@@ -253,7 +253,7 @@ Addressable에 대해서는 여기 [링크](https://young-94.tistory.com/47)를 
                 {
                     hairColor = ao.Result;
     								
-    								// 모델이 들고 있는 이벤트 구독
+                    // 모델이 들고 있는 이벤트 구독
                     hairColor.OnRedValueChanged += ChangeRedColor;
                     hairColor.OnGreenValueChanged += ChangeGreenColor;
                     hairColor.OnBlueValueChanged += ChangeBlueColor;
